@@ -92,7 +92,7 @@ class MessageComposer:
             if self.cached_str:
                 self.merged_str += f"{self.cached_str}"
         # https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO#prompt-format
-        elif self.model in ["nous-mixtral-8x7b"]:
+        elif self.model in ["nous-mixtral-8x7b","dolphin-mixtral-8x7b"]:
             self.merged_str_list = []
             for message in self.messages:
                 role = message["role"]
