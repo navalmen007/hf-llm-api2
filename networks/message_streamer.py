@@ -31,7 +31,7 @@ class MessageStreamer:
             # so I use mistral-7b as a fallback
             self.tokenizer = AutoTokenizer.from_pretrained(MODEL_MAP["mistral-7b"])
         else:
-            self.tokenizer = AutoTokenizer.from_pretrained(self.model_fullname)
+            self.tokenizer = AutoTokenizer.from_pretrained(self.model_fullname, use_fast=False)
 
     def parse_line(self, line):
         line = line.decode("utf-8")
