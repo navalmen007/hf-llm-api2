@@ -76,7 +76,7 @@ class MessageComposer:
         self.merged_str = ""
 
         # https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1#instruction-format
-        if self.model in ["mixtral-8x7b", "mistral-7b","dolphin-mixtral-8x7b"]:
+        if self.model in ["mixtral-8x7b", "mistral-7b"]:
             self.messages = self.concat_messages_by_role(messages)
             self.cached_str = ""
             for message in self.messages:
@@ -92,7 +92,7 @@ class MessageComposer:
             if self.cached_str:
                 self.merged_str += f"{self.cached_str}"
         # https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO#prompt-format
-        elif self.model in ["nous-mixtral-8x7b"]:
+        elif self.model in ["nous-mixtral-8x7b","dolphin-mixtral-8x7b"]:
             self.merged_str_list = []
             for message in self.messages:
                 role = message["role"]
