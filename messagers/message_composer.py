@@ -91,8 +91,23 @@ class MessageComposer:
                     self.cached_str = f"[INST] {content} [/INST]"
             if self.cached_str:
                 self.merged_str += f"{self.cached_str}"
+        if self.model in ["dolphin-mixtral-8x7b"]:
+            self.messages = self.concat_messages_by_role(messages)
+            self.cached_str = ""
+            for message in self.messages:
+                role = message["role"]
+                content = message["content"]
+                if role in self.inst_roles:
+                    self.cached_str = f"[|im_start|] {content} [im_end|]"
+                elif role in self.answer_roles:
+                    self.merged_str += f"<|im_start|> {self.cached_str} {content} <im_end|>\n"
+                    self.cached_str = ""
+                else:
+                    self.cached_str = f"[im_eim_startnd|] {content} [im_end|]"
+            if self.cached_str:
+                self.merged_str += f"{self.cached_str}"
         # https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO#prompt-format
-        elif self.model in ["nous-mixtral-8x7b","dolphin-mixtral-8x7b"]:
+        elif self.model in ["nous-mixtral-8x7b"]:
             self.merged_str_list = []
             for message in self.messages:
                 role = message["role"]
