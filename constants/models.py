@@ -1,6 +1,6 @@
 MODEL_MAP = {
     "mixtral-8x7b": "mistralai/Mixtral-8x7B-Instruct-v0.1",  # [Recommended]
-    "dolphin-mixtral-8x7b": "macadeliccc/laser-dolphin-mixtral-4x7b-dpo",
+    "dolphin-mixtral-8x7b": "cognitivecomputations/dolphin-2.5-mixtral-8x7b",
     "nous-mixtral-8x7b": "NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO",
     "mistral-7b": "mistralai/Mistral-7B-Instruct-v0.2",
     "openchat-3.5": "openchat/openchat-3.5-0106",
@@ -50,7 +50,7 @@ AVAILABLE_MODELS_DICTS = [
     },
     {
         "id": "dolphin-mixtral-8x7b",
-        "description": "[macadeliccc/laser-dolphin-mixtral-4x7b-dpo]: https://huggingface.co/macadeliccc/laser-dolphin-mixtral-4x7b-dpo",
+        "description": "[cognitivecomputations/dolphin-2.5-mixtral-8x7b]: https://huggingface.co/cognitivecomputations/dolphin-2.5-mixtral-8x7b",
         "object": "model",
         "created": 1700000000,
         "owned_by": "cognitivecomputations",
