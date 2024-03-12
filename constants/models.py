@@ -25,7 +25,7 @@ TOKEN_LIMIT_MAP = {
     "dolphin-mixtral-8x7b": 32768,
     "nous-mixtral-8x7b": 32768,
     "mistral-7b": 32768,
-    "dolphin-mistral-7b": : 32768,
+    "dolphin-mistral-7b": 32768,
     "openchat-3.5": 8192,
     "gemma-7b": 8192,
 }
