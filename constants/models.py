@@ -1,7 +1,7 @@
 MODEL_MAP = {
     "mixtral-8x7b": "mistralai/Mixtral-8x7B-Instruct-v0.1",  # [Recommended]
-    "dolphin-mixtral-8x7b": "macadeliccc/laser-dolphin-mixtral-4x7b-dpo",
-    "nous-mixtral-8x7b": "NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO",
+    "dolphin-mixtral-8x7b": "cognitivecomputations/dolphin-2.5-mixtral-8x7b",
+    #"nous-mixtral-8x7b": "NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO",
     "mistral-7b": "mistralai/Mistral-7B-Instruct-v0.2",
     "openchat-3.5": "openchat/openchat-3.5-0106",
     "gemma-7b": "google/gemma-7b-it",
@@ -55,13 +55,13 @@ AVAILABLE_MODELS_DICTS = [
         "created": 1700000000,
         "owned_by": "cognitivecomputations",
     },
-    {
-        "id": "nous-mixtral-8x7b",
-        "description": "[NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO]: https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO",
-        "object": "model",
-        "created": 1700000000,
-        "owned_by": "NousResearch",
-    },
+    #{
+    #    "id": "nous-mixtral-8x7b",
+    #    "description": "[NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO]: https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO",
+    #    "object": "model",
+    #    "created": 1700000000,
+    #    "owned_by": "NousResearch",
+    #},
     {
         "id": "mistral-7b",
         "description": "[mistralai/Mistral-7B-Instruct-v0.2]: https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2",

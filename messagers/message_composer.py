@@ -107,16 +107,22 @@ class MessageComposer:
             if self.cached_str:
                 self.merged_str += f"{self.cached_str}"
         # https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO#prompt-format
-        elif self.model in ["nous-mixtral-8x7b"]:
+        elif self.model in ["dolphin-mixtral"]:
             self.merged_str_list = []
+            # Assuming add_generation_prompt is a boolean attribute of your class that you can check
+            # If it's not part of your class, you'll need to ensure it's defined or passed appropriately
+            if not hasattr(self, 'add_generation_prompt'):
+                self.add_generation_prompt = False
+
             for message in self.messages:
                 role = message["role"]
                 content = message["content"]
                 if role not in ["system", "user", "assistant"]:
-                    role = self.default_role
-                message_line = f"<|im_start|>{role}\n{content}<|im_end|>"
+                    role = self.default_role  # assuming self.default_role is defined elsewhere in your class
+                message_line = f"{role}\n{content}"
                 self.merged_str_list.append(message_line)
-            self.merged_str_list.append("<|im_start|>assistant")
+            if self.add_generation_prompt:  # Add 'assistant' to the end if add_generation_prompt is True
+                self.merged_str_list.append("assistant")
             self.merged_str = "\n".join(self.merged_str_list)
         # https://huggingface.co/openchat/openchat-3.5-0106
         elif self.model in ["openchat-3.5"]:
