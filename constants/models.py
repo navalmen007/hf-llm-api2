@@ -3,6 +3,7 @@ MODEL_MAP = {
     "dolphin-mixtral-8x7b": "cognitivecomputations/dolphin-2.5-mixtral-8x7b",
     #"nous-mixtral-8x7b": "NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO",
     "mistral-7b": "mistralai/Mistral-7B-Instruct-v0.2",
+    "dolphin-mistral-7b": "MaziyarPanahi/dolphin-2.0-mistral-7b-Mistral-7B-Instruct-v0.1",
     "openchat-3.5": "openchat/openchat-3.5-0106",
     "gemma-7b": "google/gemma-7b-it",
     "default": "mistralai/Mixtral-8x7B-Instruct-v0.1",
@@ -14,6 +15,7 @@ STOP_SEQUENCES_MAP = {
     "dolphin-mixtral-8x7b": "<|im_end|>",
     "nous-mixtral-8x7b": "<|im_end|>",
     "mistral-7b": "</s>",
+    "dolphin-mistral-7b": "</s>",
     "openchat-3.5": "<|end_of_turn|>",
     "gemma-7b": "<eos>",
 }
@@ -23,6 +25,7 @@ TOKEN_LIMIT_MAP = {
     "dolphin-mixtral-8x7b": 32768,
     "nous-mixtral-8x7b": 32768,
     "mistral-7b": 32768,
+    "dolphin-mistral-7b": : 32768,
     "openchat-3.5": 8192,
     "gemma-7b": 8192,
 }
@@ -35,6 +38,7 @@ AVAILABLE_MODELS = [
     "dolphin-mixtral-8x7b",
     "nous-mixtral-8x7b",
     "mistral-7b",
+    "dolphin-mistral-7b",
     "openchat-3.5",
     "gemma-7b",
 ]
@@ -50,7 +54,7 @@ AVAILABLE_MODELS_DICTS = [
     },
     {
         "id": "dolphin-mixtral-8x7b",
-        "description": "[macadeliccc/laser-dolphin-mixtral-4x7b-dpo]: https://huggingface.co/macadeliccc/laser-dolphin-mixtral-4x7b-dpo",
+        "description": "[cognitivecomputations/dolphin-2.5-mixtral-8x7b]: https://huggingface.co/cognitivecomputations/dolphin-2.5-mixtral-8x7b",
         "object": "model",
         "created": 1700000000,
         "owned_by": "cognitivecomputations",
@@ -65,6 +69,13 @@ AVAILABLE_MODELS_DICTS = [
     {
         "id": "mistral-7b",
         "description": "[mistralai/Mistral-7B-Instruct-v0.2]: https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.2",
+        "object": "model",
+        "created": 1700000000,
+        "owned_by": "mistralai",
+    },
+    {
+        "id": "dolphin-mistral-7b",
+        "description": "[MaziyarPanahi/dolphin-2.0-mistral-7b-Mistral-7B-Instruct-v0.1]: https://huggingface.co/MaziyarPanahi/dolphin-2.0-mistral-7b-Mistral-7B-Instruct-v0.1",
         "object": "model",
         "created": 1700000000,
         "owned_by": "mistralai",
