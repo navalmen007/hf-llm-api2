@@ -93,7 +93,7 @@ class MessageComposer:
                 self.merged_str += f"{self.cached_str}"
         
         # https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO#prompt-format
-        elif self.model in ["dolphin-mixtral"]:
+        elif self.model in ["dolphin-mixtral-8x7b"]:
             self.merged_str_list = []
             # Assuming add_generation_prompt is a boolean attribute of your class that you can check
             # If it's not part of your class, you'll need to ensure it's defined or passed appropriately
