@@ -13,3 +13,4 @@ transformers
 uvicorn
 websockets
 sentencepiece
+protobuf
