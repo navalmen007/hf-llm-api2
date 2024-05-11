@@ -12,7 +12,7 @@ class MessageComposer:
         if model in AVAILABLE_MODELS:
             self.model = model
         else:
-            self.model = "mixtral-8x7b"
+            self.model = "nous-mixtral-8x7b"
         self.model_fullname = MODEL_MAP[self.model]
         self.system_roles = ["system"]
         self.inst_roles = ["user", "system", "inst"]
@@ -76,7 +76,7 @@ class MessageComposer:
         self.merged_str = ""
 
         # https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1#instruction-format
-        if self.model in ["mixtral-8x7b", "mistral-7b","dolphin-mistral-7b"]:
+        if self.model in ["mixtral-8x7b", "mistral-7b"]:
             self.messages = self.concat_messages_by_role(messages)
             self.cached_str = ""
             for message in self.messages:
@@ -91,24 +91,17 @@ class MessageComposer:
                     self.cached_str = f"[INST] {content} [/INST]"
             if self.cached_str:
                 self.merged_str += f"{self.cached_str}"
-        
         # https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO#prompt-format
-        elif self.model in ["dolphin-mixtral-8x7b","CodeQwen1.5"]:
+        elif self.model in ["nous-mixtral-8x7b"]:
             self.merged_str_list = []
-            # Assuming add_generation_prompt is a boolean attribute of your class that you can check
-            # If it's not part of your class, you'll need to ensure it's defined or passed appropriately
-            if not hasattr(self, 'add_generation_prompt'):
-                self.add_generation_prompt = False
-
             for message in self.messages:
                 role = message["role"]
                 content = message["content"]
                 if role not in ["system", "user", "assistant"]:
-                    role = self.default_role  # assuming self.default_role is defined elsewhere in your class
-                message_line = f"{role}\n{content}"
+                    role = self.default_role
+                message_line = f"<|im_start|>{role}\n{content}<|im_end|>"
                 self.merged_str_list.append(message_line)
-            if self.add_generation_prompt:  # Add 'assistant' to the end if add_generation_prompt is True
-                self.merged_str_list.append("assistant")
+            self.merged_str_list.append("<|im_start|>assistant")
             self.merged_str = "\n".join(self.merged_str_list)
         # https://huggingface.co/openchat/openchat-3.5-0106
         elif self.model in ["openchat-3.5"]:
@@ -132,7 +125,7 @@ class MessageComposer:
                     )
             self.merged_str_list.append(f"GPT4 Correct Assistant:\n")
             self.merged_str = "\n".join(self.merged_str_list)
-        # https://huggingface.co/google/gemma-7b-it#chat-template
+        # https://huggingface.co/google/gemma-1.1-7b-it#chat-template
         elif self.model in ["gemma-7b"]:
             self.messages = self.concat_messages_by_role(messages)
             self.merged_str_list = []
@@ -154,24 +147,60 @@ class MessageComposer:
                         f"{self.start_of_turn}user\n{content}{self.end_of_turn}"
                     )
             self.merged_str_list.append(f"{self.start_of_turn}model\n")
-            self.merged_str = "\n".join(self.merged_str_list)
+            self.merged_str = "<bos>" + "\n".join(self.merged_str_list)
         # https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO#prompt-format
         # https://huggingface.co/openchat/openchat-3.5-0106
         # elif self.model in ["openchat-3.5", "nous-mixtral-8x7b"]:
-        else:
-            tokenizer = AutoTokenizer.from_pretrained("openchat/openchat-3.5-0106")
+        elif self.model in ["openchat-3.5", "command-r-plus", "gemma-7b"]:
+            tokenizer = AutoTokenizer.from_pretrained(self.model_fullname)
             self.merged_str = tokenizer.apply_chat_template(
                 messages, tokenize=False, add_generation_prompt=True
             )
+        else:
+            self.merged_str = "\n\n".join(
+                [f"{message['role']}: {message['content']}" for message in messages]
+            )
 
         return self.merged_str
+
+    def decompose_to_system_and_input_prompt(
+        self, messages: list[dict], append_assistant=True
+    ):
+        system_prompt_list = []
+        user_and_assistant_messages = []
+        for message in messages:
+            role = message["role"]
+            content = message["content"]
+            if role in self.system_roles:
+                system_prompt_list.append(content)
+            else:
+                user_and_assistant_messages.append(message)
+        system_prompt = "\n".join(system_prompt_list)
+
+        input_prompt_list = []
+        input_messages = self.concat_messages_by_role(user_and_assistant_messages)
+        for message in input_messages:
+            role = message["role"]
+            content = message["content"]
+            if role in self.answer_roles:
+                role_content_str = f"`assistant`:\n{content}"
+            else:
+                role_content_str = f"`user`:\n{content}"
+            input_prompt_list.append(role_content_str)
+        input_prompt = "\n\n".join(input_prompt_list)
+
+        if append_assistant:
+            input_prompt += "\n\n`assistant`:"
+
+        return system_prompt, input_prompt
 
 
 if __name__ == "__main__":
     # model = "mixtral-8x7b"
     # model = "nous-mixtral-8x7b"
-    # model = "gemma-7b"
-    model = "openchat-3.5"
+    model = "gemma-7b"
+    # model = "openchat-3.5"
+    # model = "command-r-plus"
     composer = MessageComposer(model)
     messages = [
         {
@@ -189,9 +218,15 @@ if __name__ == "__main__":
         #     "content": "How many questions have I asked? Please list them.",
         # },
     ]
-    logger.note(f"model: {composer.model}")
-    merged_str = composer.merge(messages)
-    logger.note("merged_str:")
-    logger.mesg(merged_str)
+    # logger.note(f"model: {composer.model}")
+    # merged_str = composer.merge(messages)
+    # logger.note("merged_str:")
+    # logger.mesg(merged_str)
 
-    # python -m messagers.message_composer
+    system_prompt, input_prompt = composer.decompose_to_system_and_input_prompt(
+        messages
+    )
+    logger.note("system_prompt:")
+    logger.mesg(system_prompt)
+    logger.note("input_prompt:")
+    logger.mesg(input_prompt)
