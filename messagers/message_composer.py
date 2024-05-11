@@ -76,7 +76,7 @@ class MessageComposer:
         self.merged_str = ""
 
         # https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1#instruction-format
-        if self.model in ["mixtral-8x7b", "mistral-7b","dolphin-mistral-7b"]:
+        if self.model in ["mixtral-8x7b", "mistral-7b","dolphin-mistral-7b","CodeQwen1.5"]:
             self.messages = self.concat_messages_by_role(messages)
             self.cached_str = ""
             for message in self.messages:
