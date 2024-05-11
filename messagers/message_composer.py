@@ -76,7 +76,7 @@ class MessageComposer:
         self.merged_str = ""
 
         # https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1#instruction-format
-        if self.model in ["mixtral-8x7b", "mistral-7b","dolphin-mistral-7b","CodeQwen1.5"]:
+        if self.model in ["mixtral-8x7b", "mistral-7b","dolphin-mistral-7b"]:
             self.messages = self.concat_messages_by_role(messages)
             self.cached_str = ""
             for message in self.messages:
@@ -93,7 +93,7 @@ class MessageComposer:
                 self.merged_str += f"{self.cached_str}"
         
         # https://huggingface.co/NousResearch/Nous-Hermes-2-Mixtral-8x7B-DPO#prompt-format
-        elif self.model in ["dolphin-mixtral-8x7b"]:
+        elif self.model in ["dolphin-mixtral-8x7b","CodeQwen1.5"]:
             self.merged_str_list = []
             # Assuming add_generation_prompt is a boolean attribute of your class that you can check
             # If it's not part of your class, you'll need to ensure it's defined or passed appropriately
